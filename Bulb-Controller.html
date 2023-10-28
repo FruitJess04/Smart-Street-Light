@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="welcome.css">
+
+    <style>
+        body{
+           background-color: antiquewhite;
+        }
+        .container {
+            box-shadow: #ccc;
+            padding: 0;
+            margin: 0;
+            list-style: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            margin:10px 200px 0 200px;
+            border: 5px dashed green;
+            width: 75%;
+        }
+            .bulb {
+                width: 50px;
+                height: 50px;
+                border-radius: 50%;
+                background-color: #ccc;
+                margin: 10px;
+            }
+
+            .bulb-container{
+                display: flex;
+                flex-direction: column;
+            }
+
+            .lights-control{
+                display: flex;
+                flex-direction: row;
+            }
+
+            .on {
+                background-color: yellow;
+            }
+
+            .button {
+                padding: 10px 20px;
+                background-color: #4CAF50;
+                color: white;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                margin: 5px;
+            }
+    </style>
+</head>
+
+<body>
+
+    <nav>
+        <input type="checkbox" id="check">
+        <label for="check" class="checkbtn">
+          <i class="fas fa-bars"></i>
+        </label>
+        <label class="logo">Smart Streetlight</label>
+        <ul>
+          <li><a  href="welcome.html">Dashboard</a></li>
+          <li><a class="active" href="Bulb-Controller.html">Controls</a></li>
+          <li><a href="index.html">logout</a></li>
+  
+  
+  
+        </ul>
+      </nav>
+
+    <div class="container setTime">
+        <h2>Time Controlled Streetlight</h2>
+        <label for="timePicker">Set Time:</label>
+        <input type="time" id="timePicker">
+        <br><br>
+        <button onclick="checkTime()">Check Time</button>
+        <br><br>
+        <button class="button" onclick="toggleAllBulbs()">Power</button>
+    </div>
+
+    <div class="container time">
+        <h2>Current Time Display</h2><br><br>
+        <p id="timeDisplay"></p>
+    </div>
+
+    <div class="container bulb-container">
+        <div class="lights-control">
+            <div class="bulb" id="bulb1"></div>
+            <button class="button" onclick="toggleBulb(1)">Street Light 1</button>
+            <div class="bulb" id="bulb2"></div>
+            <button class="button" onclick="toggleBulb(2)">Street Light 2</button>
+            <!-- <div class="bulb" id="bulb3"></div> -->
+            <!-- <button class="button" onclick="toggleBulb(3)">Toggle Bulb 3</button> -->
+        </div>
+        <div class="button-activation">
+            <button class="button" onclick="toggleAllBulbs()">Power on/off</button>
+        </div>
+    </div>
+
+
+    <script>
+        
+        function updateTime() {
+            var currentTime = new Date();
+            var hours = currentTime.getHours();
+            var minutes = currentTime.getMinutes();
+            var seconds = currentTime.getSeconds();
+            hours = (hours < 10 ? "0" : "") + hours;
+            minutes = (minutes < 10 ? "0" : "") + minutes;
+            seconds = (seconds < 10 ? "0" : "") + seconds;
+            var timeString = hours + ":" + minutes + ":" + seconds;
+            document.getElementById("timeDisplay").innerText = timeString;
+        }
+
+        updateTime(); // To display the time on page load
+
+        // Update time every second
+        setInterval(updateTime, 1000);
+
+        function toggleAllBulbs() {
+            var bulbs = document.getElementsByClassName("bulb");
+            var button = document.getElementsByClassName("button");
+            if (bulbs[0].classList.contains("on")) {
+            for (var i = 0; i < bulbs.length; i++) {
+                bulbs[i].classList.remove("on");
+                button[3].innerHTML = "Power On";
+            }
+            } else {
+            for (var i = 0; i < bulbs.length; i++) {
+                bulbs[i].classList.add("on");
+                button[3].innerHTML = "Power Off";
+            }
+            }
+        }
+
+    function toggleBulb(bulbNumber) {
+        var bulb = document.getElementById("bulb" + bulbNumber);
+        if (bulb.classList.contains("on")) {
+        bulb.classList.remove("on");
+        } else {
+        bulb.classList.add("on");
+        }
+    }
+
+  function checkTime() {
+            var inputTime = document.getElementById("timePicker").value;
+            var currentTime = new Date().toLocaleTimeString('en-US', { hour12: false });
+
+            if (inputTime === currentTime) {
+                document.getElementById("toggleAllBulbs").checked = true;
+                console.log("Streetlight powered on at the set time: " + currentTime);
+            } else {
+                document.getElementById("toggleAllBulbs").checked = false;
+                console.log("Streetlight remains off at the current time: " + currentTime);
+            }
+        }
+    </script>
+</body>
+
+</html>
